@@ -28,7 +28,6 @@ sudo install -m 755 ./packager-linux  /usr/local/bin/packager
 # Shaka Streamer on master branch
 git clone https://github.com/google/shaka-streamer.git
 sudo snap install google-cloud-sdk --classic
-cd ..
 
 # install Big Buck Bunny as sample file
 wget "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
