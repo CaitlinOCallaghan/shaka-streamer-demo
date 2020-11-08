@@ -1,0 +1,15 @@
+# List of inputs.
+inputs:
+    # The type of input.
+  - input_type: looped_file
+    # Name of the input file.
+    # Big Buck Bunny 
+    name: BigBuckBunny.mp4
+    # The media type of the input. Can be audio or video.
+    media_type: video
+
+    # The type of input.
+  - input_type: looped_file
+    # A second track (audio) from the same input file.
+    name: BigBuckBunny.mp4
+    media_type: audio
