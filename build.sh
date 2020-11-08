@@ -20,24 +20,10 @@ sudo apt-get -y install -f \
   python3-pip \
   wget 
 
-
-# Shaka Packager
-git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-export PATH="$PATH:$PWD/depot_tools"
-mkdir shaka-packager
-cd shaka-packager
-# grab the packager repo
-gclient config https://www.github.com/google/shaka-packager.git --name=src --unmanaged
-# checkout the most recent commit from the main branch
-gclient sync
-cd src
-# build shaka player
-ninja -C out/Release
-# verify the build
-./packager --version
+# Shaka Packager release version
+wget https://github.com/google/shaka-packager/releases/download/v2.4.3/packager-linux
 # save the binary file to local bin for global use
-sudo install -m 755 ./out/Release/packager  /usr/local/bin/packager
-cd ..
+sudo install -m 755 ./packager-linux  /usr/local/bin/packager
 
 # Shaka Streamer on master branch
 git clone https://github.com/google/shaka-streamer.git
