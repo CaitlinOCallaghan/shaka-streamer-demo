@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Local Player</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="./video-js-7.10.1/video-js.css">
+  <!-- <script src="./video-js-7.10.1/dist/ie8/videojs-ie8.js"></script> -->
+  <style>
+    .pageTitle {
+      text-align: center;
+    }
+    .playerBlock {
+      margin-bottom: 1em;
+    }
+    .playerTitleDiv {
+      border: 5px outset red;
+      background-color: lightcoral;
+      text-align: center;
+    }
+    </style>
+
+</head>
+
+<body>
+  <script src="./video-js-7.10.1/video.js"></script>
+  
+  <!-- Dash.js -->
+  <script src="./dash.js-3.1.3/dist/dash.all.min.js"></script>
+  
+  <!-- videojs-contrib-dash script -->
+  <script src="./videojs-dash.js"></script>
+
+  <!-- HLS.js -->
+  <script src="./videojs-contrib-hls.min.js"></script>
+
+  <div class="pageTitle">
+    <h1>Local Folder</h1>
+  </div>
+  <div class="playerBlock">
+    <div class="playerTitleDiv">
+        <h2>Dash Player</h2>
+    </div>
+    <video id=dash-video width=600 height=300 class="video-js vjs-default-skin" muted="muted" controls></video>
+  </div>
+  <div class="playerBlock"></div>
+    <div class="playerTitleDiv">
+      <h2>HLS Player</h2>
+    </div>
+    <video id=hls-video width=600 height=300 class="video-js vjs-default-skin" controls></video>
+  </div>
+
+  <script>
+    var dashPlayer = videojs('dash-video');
+    
+    dashPlayer.ready(function() {
+        dashPlayer.src({
+        src: './local_playout_output/dash.mpd',
+        type: 'application/dash+xml'
+        });
+    
+        dashPlayer.play();
+    });
+
+    videojs.Hls.xhr.beforeRequest = function(options) {
+        /*
+        * Modifications to requests that will affect every player.
+        */
+
+        return options;
+    };
+
+    var hlsPlayer = videojs('hls-video');
+    hlsPlayer.ready(function() {
+        this.src({
+        src: './local_playout_output/hls.m3u8',
+        type: 'application/x-mpegURL',
+        });
+    });
+  </script>
+</body>
+
+</html>
