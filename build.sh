@@ -21,13 +21,26 @@ sudo apt-get -y install -f \
   python3-pip \
   wget 
 
-# Shaka Packager release version
-wget https://github.com/google/shaka-packager/releases/download/v2.4.3/packager-linux
+# Shaka Packager with HTTP upload
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+export PATH="$PATH:$PWD/depot_tools"
+mkdir shaka_packager
+cd shaka_packager
+# grab the repo containing the HTTP upload branch
+gclient config https://github.com/termoose/shaka-packager.git --name=src --unmanaged
+# checkout the most recent commit from the "http-upload" branch
+gclient sync -r 526bb8857781a361865e4dbf1a39853cf47fa1cd
+cd src
+# build shaka player
+ninja -C out/Release
+# verify the build
+./packager --version
 # save the binary file to local bin for global use
-sudo install -m 755 ./packager-linux  /usr/local/bin/packager
+sudo install -m 755 ./out/Release/packager  /usr/local/bin/packager
+cd ../..
 
-# Shaka Streamer on master branch
-git clone https://github.com/google/shaka-streamer.git
+# Shaka Streamer with HTTP upload on master branch
+git clone https://github.com/joeyparrish/shaka-streamer.git
 sudo snap install google-cloud-sdk --classic
 
 # install Big Buck Bunny as sample file
