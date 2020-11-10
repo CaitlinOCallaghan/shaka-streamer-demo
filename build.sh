@@ -15,6 +15,7 @@ sudo apt-get -y install -f \
   libtinfo5 \
   net-tools \
   nginx \
+  nginx-extras \
   ninja-build \
   python \
   python3-pip \
