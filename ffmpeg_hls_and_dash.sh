@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set port number
+# Note: use 80 for Nginx and 8080 for s3-proxy-upload
+port=80
 vid=$(date '+%m-%d-%y-%T')
 
 # generate test pattern
@@ -28,7 +31,7 @@ vid=$(date '+%m-%d-%y-%T')
 #     -master_pl_name dongs.m3u8 \
 #     -utc_timing_url "https://time.akamai.com/?iso" \
 #     -adaptation_sets "id=0,streams=v" \
-#     http://0.0.0.0:80/${vid}/manifest.mpd
+#     http://0.0.0.0:${port}/${vid}/manifest.mpd
 
     
 # Buck Bunny
@@ -57,4 +60,4 @@ ffmpeg \
     -master_pl_name dongs.m3u8 \
     -utc_timing_url "https://time.akamai.com/?iso" \
     -adaptation_sets "id=0,streams=v" \
-    http://0.0.0.0:80/${vid}/manifest.mpd
+    http://0.0.0.0:${port}/${vid}/manifest.mpd

@@ -30,7 +30,7 @@ vid=$(date '+%m-%d-%y-%T')
 #     -adaptation_sets "id=0,streams=v" \
 #     http://0.0.0.0:8080/${vid}/manifest.mpd
 
-# generate test pattern
+# Buck Bunny
 ffmpeg \
     -re \
     -loglevel debug \
