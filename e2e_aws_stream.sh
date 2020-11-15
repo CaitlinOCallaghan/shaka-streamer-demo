@@ -12,6 +12,7 @@ mkfifo pipe0
 # start shim
 sudo pkill s3-upload-proxy
 export LOG_LEVEL=debug UPLOAD_DRIVER=${driverType} REGION_NAME=us-west-2  BUCKET_NAME=${bucketName} HTTP_PORT=8080
+cd s3-upload-proxy
 go build -o s3-upload-proxy
 ./s3-upload-proxy &
 
@@ -115,7 +116,7 @@ x264enc='libx264 -tune zerolatency -profile:v high -preset ultrafast -bf 0 -refs
 ffmpeg \
     -hide_banner \
     -re \
-    -i "../shaka-streamer-demo/BigBuckBunny.mp4" \
+    -i "./BigBuckBunny.mp4" \
     -pix_fmt yuv420p \
     -map 0:v \
     -c:v ${x264enc} \
