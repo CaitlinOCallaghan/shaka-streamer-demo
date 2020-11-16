@@ -11,7 +11,7 @@ This project is for StreamShark. All rights reserved.
 ------
 
 ## Breakdown on shaka-streamer
-Shaka Streamer encapsulates FFMPEG and Shaka Packager. Yaml configuration files are used to specify the input parameters of the video stream. Equivalenlty, python dictionaries can be used with the streamer python module. More information on Shaka Streamer can be found [here](https://github.com/google/shaka-streamer).
+Shaka Streamer encapsulates FFMPEG and Shaka Packager. Yaml configuration files are used to specify the input parameters of the video stream. Equivalently, python dictionaries can be used with the streamer python module. More information on Shaka Streamer can be found [here](https://github.com/google/shaka-streamer).
 
 Shaka Streamer currently supports writing out to local files and directly to S3. The forks of Shaka Streamer and Shaka Packager used in this demo include the added feature of HTTP output.
 
@@ -19,17 +19,17 @@ Shaka Streamer currently supports writing out to local files and directly to S3.
 
 ### Nginx
 
-To stream with Nginx, HTTP put simpliy hits the port that Nginx is running on. 
+To stream with Nginx, HTTP put simply hits the port that Nginx is running on. 
 
 <img src="./images/ShakaStreamerNginx.png">
 
 ### AWS
 
-AWS requires the addition of a proxy to assist in authentication. Alternatively, a shim can also be used to providde ultra low latency; however, this is not needed when streaming video on demand. Therefore, a proxy will suffice. Proxies add the benefit of refreshed authentication tokens. 
+AWS requires the addition of a proxy to assist in authentication. Alternatively, a shim can also be used to provide ultra low latency; however, this is not needed when streaming video on demand. Therefore, a proxy will suffice. Proxies add the benefit of refreshed authentication tokens. 
 
 <img src="./images/ShakaStreamerAWS.png">
 
-It is a known issue that Shaka Streamer's native authenitcation tokens expire after about an hour when using Shaka Streamer to stream directly to S3. It is proposed that platform independent authentication is added to Shaka Streamer. This feature must refresh tokens. 
+It is a known issue that Shaka Streamer's native authentication tokens expire after about an hour when using Shaka Streamer to stream directly to S3. It is proposed that platform independent authentication is added to Shaka Streamer. This feature must refresh tokens. 
 
 <img src="./images/ShakaStreamerProposal.png">
 
@@ -50,7 +50,7 @@ foo@bar:~$ cd shaka-streamer-demo
 foo@bar:~/shaka-streamer-demo$ ./build.sh
 ```
 
-After the installation, configure your AWS credentials with awscli. This step is critical for accessing your S3 buckets and MediaStore containers. Follow the commandline prompts to enter your Access Key ID and Secret Access Key. For more information and instructions on where to find your AWS keys, you can visit AWS documentation [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). 
+After the installation, configure your AWS credentials with awscli. This step is critical for accessing your S3 buckets and MediaStore containers. Follow the command line prompts to enter your Access Key ID and Secret Access Key. For more information and instructions on where to find your AWS keys, you can visit AWS documentation [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). 
 
 ```console
 foo@bar:~$ aws configure
@@ -81,7 +81,7 @@ Begin by launching the local http server with the launch script.
 foo@bar:~/shaka-streamer-demo$ ./launch_local_server.sh
 ```
 
-From a seperate terminal, run the local live script to start shaka streamer and dump the output files in a directory of your choice. This directory is specified in the script.  
+From a separate terminal, run the local live script to start shaka streamer and dump the output files in a directory of your choice. This directory is specified in the script.  
 
 ```console
 foo@bar:~/shaka-streamer-demo$ ./local_live.sh
@@ -90,7 +90,7 @@ foo@bar:~/shaka-streamer-demo$ ./local_live.sh
 From your web browser, checkout the live stream at: http://0.0.0.0:3000/local_index.html. If the machine running the server is remote, use the machine's IP instead of the local address of 0.0.0.0.
 
 ## Nginx
-First, ensure that nginx is turned on and take note of the port that it is running on. Then, stream the content by running the launch script. Set the the port at the top of the script to that of Nginx. 
+First, ensure that nginx is turned on and take note of the port that it is running on. Then, stream the content by running the launch script. Set the port at the top of the script to that of Nginx. 
 
 ```console
 foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh
@@ -114,7 +114,7 @@ For S3 Buckets, ensure that the policy is:
                 "s3:PutObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::bucekt-name/*"
+            "Resource": "arn:aws:s3:::bucket-name/*"
         }
     ]
 }
@@ -161,14 +161,14 @@ For MediaStore Containers, set the container policy to:
 
 With AWS set up, it's time to stream the video! 
 
-Start by launching the proxy on s3 or mediastore: 
+Start by launching the proxy on S3 or MediaStore: 
 
 ```console
 foo@bar:~/shaka-streamer-demo$ ./s3_launch_proxy.sh
 foo@bar:~/shaka-streamer-demo$ ./mediastore_launch_proxy.sh
 ```
 
-In a second terminal, launch the script running ffmpeg to encode the video and shaka-packager to package it. Set the port at the top of the script to the port of the proxy.
+In a second terminal, launch the script running FFMPEG to encode the video and shaka-packager to package it. Set the port at the top of the script to the port of the proxy.
 
 ```console
 foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh
@@ -176,7 +176,7 @@ foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh
 
 Through AWS, you can access links for the video manifests and play them out via QuickTime player or VLC. 
 
-Alternativly, you can run the end-to-end script. This script runs FFMPEG, Shaka-Packager, and s3-upload-proxy, which puts the video segments and meanifests in S3 or MediaStore. The script also uploads an HTML player to AWS for users to view the stream from. Edit the parameters at the top of the script to specify the cloud service you'd like to stream to and to enter your unique bucket and user IDs. 
+Alternatively, you can run the end-to-end script. This script runs FFMPEG, Shaka-Packager, and s3-upload-proxy, which puts the video segments and manifests in S3 or MediaStore. The script also uploads an HTML player to AWS for users to view the stream from. Edit the parameters at the top of the script to specify the cloud service you'd like to stream to and to enter your unique bucket and user IDs. 
 
 ```console
 foo@bar:~/shaka-streamer-demo$ ./e2e_aws_stream.sh
