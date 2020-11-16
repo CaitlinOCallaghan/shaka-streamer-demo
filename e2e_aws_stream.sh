@@ -116,7 +116,7 @@ x264enc='libx264 -tune zerolatency -profile:v high -preset ultrafast -bf 0 -refs
 ffmpeg \
     -hide_banner \
     -re \
-    -i "./BigBuckBunny.mp4" \
+    -i "/home/coc/shaka-streamer-demo/BigBuckBunny.mp4" \
     -pix_fmt yuv420p \
     -map 0:v \
     -c:v ${x264enc} \
