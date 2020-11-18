@@ -84,16 +84,45 @@ foo@bar:~/shaka-streamer-demo$ ./launch_local_server.sh
 From a separate terminal, run the local live script to start shaka streamer and dump the output files in a directory of your choice. This directory is specified in the script.  
 
 ```console
-foo@bar:~/shaka-streamer-demo$ ./local_live.sh
+foo@bar:~/shaka-streamer-demo$ ./local_live_streamer.sh # using streamer
 ```
 
 From your web browser, checkout the live stream at: http://0.0.0.0:3000/local_index.html. If the machine running the server is remote, use the machine's IP instead of the local address of 0.0.0.0.
 
 ## Nginx
-First, ensure that nginx is turned on and take note of the port that it is running on. Then, stream the content by running the launch script. Set the port at the top of the script to that of Nginx. 
+First, ensure that nginx is properly set for http requests. Navigate to  the "/etc/nginx/sites-enabled" directory and alter the file "default". 
+```console
+foo@bar:/etc/nginx/sites-enabled$ ls
+default
+```
+
+Edit the default file so that the "location" block includes the following. 
 
 ```console
-foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+		
+	    client_body_temp_path /srv/upload;
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+		create_full_put_path  on;
+		dav_access  group:rw  all:r;
+        limit_except GET {
+            allow all;
+        }
+	}
+```
+
+Before streaming, make sure that nginx turned on and take note of the port that it is running on. Then, stream the content by running the following launch script. Set the port at the top of the script to that of Nginx. 
+
+```console
+foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh # using ffmpeg and packager
+```
+
+To stream with Shaka Streamer, run: 
+```console
+foo@bar:~/shaka-streamer-demo$ ./nginx_live_streamer.sh # using streamer
 ```
 
 ## AWS 
@@ -168,10 +197,15 @@ foo@bar:~/shaka-streamer-demo$ ./s3_launch_proxy.sh
 foo@bar:~/shaka-streamer-demo$ ./mediastore_launch_proxy.sh
 ```
 
-In a second terminal, launch the script running FFMPEG to encode the video and shaka-packager to package it. Set the port at the top of the script to the port of the proxy.
+In a second terminal, launch the script running FFMPEG to encode the video and shaka-packager to package it. Set the port at the top of the script to the port of the proxy. 
 
 ```console
-foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh
+foo@bar:~/shaka-streamer-demo$ ./ffmpeg_hls_and_dash.sh # using ffmpeg and packager
+```
+
+To stream to AWS using Shaka Streamer, run the following script. Ensure that the http url includes the port that the proxy is running on. 
+```console
+foo@bar:~/shaka-streamer-demo$ ./aws_live_streamer.sh # using streamer
 ```
 
 Through AWS, you can access links for the video manifests and play them out via QuickTime player or VLC. 
@@ -179,6 +213,6 @@ Through AWS, you can access links for the video manifests and play them out via 
 Alternatively, you can run the end-to-end script. This script runs FFMPEG, Shaka-Packager, and s3-upload-proxy, which puts the video segments and manifests in S3 or MediaStore. The script also uploads an HTML player to AWS for users to view the stream from. Edit the parameters at the top of the script to specify the cloud service you'd like to stream to and to enter your unique bucket and user IDs. 
 
 ```console
-foo@bar:~/shaka-streamer-demo$ ./e2e_aws_stream.sh
+foo@bar:~/shaka-streamer-demo$ ./e2e_aws_stream.sh # using ffmpeg and packager
 ```
 
