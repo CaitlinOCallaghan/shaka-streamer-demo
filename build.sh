@@ -30,7 +30,8 @@ mkdir shaka_packager
 cd shaka_packager
 # grab the repo containing the HTTP upload branch
 gclient config https://github.com/joeyparrish/shaka-packager.git --name=src --unmanaged
-gclient sync
+# checkout the HTTP branch
+gclient sync -r 224b9e41822b02bfe99c74cb65c608674f1b369f
 cd src
 # build shaka player
 ninja -C out/Release
