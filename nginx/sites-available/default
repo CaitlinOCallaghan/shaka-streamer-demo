@@ -1,0 +1,23 @@
+# shaka-streamer example nginx config
+
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/html;
+
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+
+    location / {
+		try_files $uri $uri/ =404;
+		
+	    client_body_temp_path /srv/upload;
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+		create_full_put_path  on;
+		dav_access  group:rw  all:r;
+        limit_except GET {
+            allow all;
+        }
+	}
+}

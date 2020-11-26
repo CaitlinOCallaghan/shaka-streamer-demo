@@ -125,6 +125,8 @@ To stream with Shaka Streamer, run:
 foo@bar:~/shaka-streamer-demo$ ./nginx_live_streamer.sh # using streamer
 ```
 
+Also make sure to chown -R www-data /srv/upload _and_ also /var/www/html
+
 ## AWS 
 Before streaming to AWS, HTTP authorization must be granted in the bucket and container policies. Make sure that the "Resource" is set to your unique bucket or container arn which will include your region. Under "Principal", set the "AWS" value to include your account number.  
 
